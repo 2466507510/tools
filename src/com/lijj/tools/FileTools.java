@@ -8,6 +8,10 @@ import java.io.IOException;
 
 public class FileTools {
 
+	private FileTools() {
+
+	}
+
 	// 文件拷贝
 	public static void fileCopy(String pathName1, String pathName2) {
 		File fromFile = new File(pathName1);
@@ -59,6 +63,7 @@ public class FileTools {
 		}
 	}
 
+	// 判断是否存在这个文件
 	public static boolean ifExitFile(File file) {
 		File parentFile = file.getParentFile();
 		File[] files = parentFile.listFiles();
@@ -70,5 +75,42 @@ public class FileTools {
 
 		}
 		return false;
+	}
+
+//	static int a = 0;
+	private static String str = "没有该文件";
+
+	// 在硬盘中查找文件的位置 fileName表示文件名 path表示路径
+	public static String findFile(String fileName, String path) {
+//		System.out.println(fileName + "   " + path);
+		File file = new File(path);
+//		System.out.println(file.getAbsolutePath());
+//		System.out.println(file.listFiles().length);
+		if (file.listFiles() != null && file.listFiles().length > 0) {
+			for (File f : file.listFiles()) {
+//				System.out.println(f.getAbsolutePath());
+//				a++;
+//			  System.out.println(f.isDirectory());
+//			  System.out.println(f.isFile());
+				if (f.isFile()) {
+//				System.out.println(f.getName());
+//				System.out.println(fileName);
+//				System.out.println(f.getName().equals(fileName));
+					if (fileName.equals(f.getName())) {
+//					System.out.println(f.getName());
+//					System.out.println(fileName);
+//						System.out.println(fileName.equals(f.getName()));
+//					System.out.println(f.getAbsolutePath());
+						str = f.getAbsolutePath();
+					}
+				} else if (f.isDirectory()) {
+//					System.out.println(f.getAbsolutePath());
+					findFile(fileName, f.getAbsolutePath());
+				}
+
+			}
+		}
+//		System.out.println(a);
+		return str;
 	}
 }
